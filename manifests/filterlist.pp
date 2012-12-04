@@ -29,18 +29,18 @@ Warning:
 
 */
 define reprepro::filterlist (
-  $ensure=present,
   $repository,
-  $packages
+  $packages,
+  $ensure=present
 ) {
 
   include reprepro::params
 
   file {"${reprepro::params::basedir}/${repository}/conf/${name}-filter-list":
     ensure  => $ensure,
-    owner   => root,
-    group   => reprepro,
-    mode    => 0664,
-    content => template("reprepro/filterlist.erb"),
+    owner   => 'root',
+    group   => ${reprepro::params::group_name},
+    mode    => '0664',
+    content => template('reprepro/filterlist.erb'),
   }
 }
