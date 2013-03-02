@@ -7,12 +7,12 @@ class reprepro (
   }
 
   group { 'reprepro':
-    name   => $::reprepro::params::group_name, 
+    name   => $::reprepro::params::group_name,
     ensure => present,
   }
 
   user { 'reprepro':
-    name    => $::reprepro::params::user_name, 
+    name    => $::reprepro::params::user_name,
     ensure  => present,
     home    => $basedir,
     shell   => '/bin/bash',

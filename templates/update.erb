@@ -1,5 +1,11 @@
 Name: <%= name %>
 Method: <%= url %>
+<% if @suite -%>
+Suite: <%= suite %>
+<% end -%>
+<% if @architectures -%>
+Architectures: <%= architectures %>
+<% end -%>
 VerifyRelease: <%= verify_release %>
 <% if filter_list != "" -%>
 FilterList: <%= filter_list %>

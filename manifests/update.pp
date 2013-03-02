@@ -27,6 +27,7 @@ define reprepro::update (
   $suite,
   $repository,
   $url,
+  $basedir = $::reprepro::params::basedir,
   $ensure = present,
   $architectures = undef,
   $verify_release = 'blindtrust',
@@ -55,7 +56,7 @@ define reprepro::update (
     ensure  => $ensure,
     manage  => $manage,
     content => template('reprepro/update.erb'),
-    file    => "${reprepro::params::basedir}/${repository}/conf/updates",
+    file    => "${basedir}/${repository}/conf/updates",
     require => $filter_name ? {
       ''      => Reprepro::Repository[$repository],
       default => [
