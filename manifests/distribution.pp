@@ -50,7 +50,7 @@ define reprepro::distribution (
   $codename       = $name,
   $ensure         = present,
   $basedir        = $::reprepro::params::basedir,
-  $udebcomponents = $components,
+  $udebcomponents = $::components,
   $deb_indices    = 'Packages Release .gz .bz2',
   $dsc_indices    = 'Sources Release .gz .bz2',
   $update         = '',

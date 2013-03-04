@@ -4,7 +4,7 @@ Suite: <%= suite %>
 Codename: <%= codename %>
 Architectures: <%= architectures %>
 Components: <%= components %>
-<% if @udebcomponents -%>
+<% if udebcomponents != "" -%>
 UDebComponents: <%= udebcomponents %>
 <% end -%>
 Description: <%= description %>
@@ -12,10 +12,10 @@ DebIndices: <%= deb_indices %>
 DscIndices: <%= dsc_indices %>
 SignWith: <%= sign_with %>
 <% if uploaders != "" -%>
-Uploaders: <%= uploaders -%> 
+Uploaders: <%= uploaders -%>
 <% end -%>
 <% if update != "" -%>
-Update: <%= update %> 
+Update: <%= update %>
 <% end -%>
 <% if not_automatic != "" -%>
 NotAutomatic: <%= not_automatic %>
