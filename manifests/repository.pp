@@ -11,6 +11,8 @@ Parameters:
 - *incoming_dir*: the name of the directory to scan for .changes files
 - *incoming_tmpdir*: directory where the files are copied into before they are read
 - *incoming_allow*: allowed distributions
+- *owner*: owner of reprepro files
+- *group*: reprepro files group
 - *options*: reprepro options
 
 Requires:
@@ -32,69 +34,112 @@ define reprepro::repository (
   $incoming_dir    = "incoming",
   $incoming_tmpdir = "tmp",
   $incoming_allow  = "",
+  $owner           = 'reprepro',
+  $group           = 'reprepro',
   $options         = ['verbose', 'ask-passphrase', 'basedir .']
   ) {
 
   include reprepro::params
   include concat::setup
 
-  file {
-    [
-      "${basedir}/${name}/conf",
-      "${basedir}/${name}/lists",
-      "${basedir}/${name}/db",
-      "${basedir}/${name}/logs",
-      "${basedir}/${name}/tmp",
-    ]:
-      ensure  => $ensure ? { present => directory, default => $ensure,},
-      purge   => $ensure ? { present => undef,     default => true,}, 
-      recurse => $ensure ? { present => undef,     default => true,},
-      force   => $ensure ? { present => undef,     default => true,},
-      mode    => '2755',
-      owner   => 'reprepro', 
-      group   => 'reprepro';
-       
-    [
-      "${basedir}/${name}",
-      "${basedir}/${name}/dists",
-      "${basedir}/${name}/pool",
-    ]:
-      ensure  => $ensure ? { present => directory, default => $ensure,},
-      purge   => $ensure ? { present => undef,     default => true,}, 
-      recurse => $ensure ? { present => undef,     default => true,},
-      force   => $ensure ? { present => undef,     default => true,},
-      mode    => '2755', 
-      owner   => 'reprepro', 
-      group   => 'reprepro';
+  file { "${basedir}/${name}":
+    ensure  => $ensure ? { present => directory, default => $ensure,},
+    purge   => $ensure ? { present => undef,     default => true,},
+    recurse => $ensure ? { present => undef,     default => true,},
+    force   => $ensure ? { present => undef,     default => true,},
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
 
-    "${basedir}/${name}/incoming":
-      ensure  => $ensure ? { present => directory, default => $ensure,},
-      purge   => $ensure ? { present => undef,     default => true,}, 
-      recurse => $ensure ? { present => undef,     default => true,},
-      force   => $ensure ? { present => undef,     default => true,},
-      mode    => '2770',
-      owner   => 'reprepro',
-      group   => 'reprepro';
+  file { "${basedir}/${name}/dists":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
 
-    "${basedir}/${name}/conf/options":
-      ensure  => $ensure,
-      mode    => '0640',
-      owner   => 'reprepro',
-      group   => 'reprepro',
-      content => inline_template("<%= options.join(\"\n\") %>\n");
+  file { "${basedir}/${name}/pool":
+    ensure  => directory, 
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
 
-    "${basedir}/${name}/conf/incoming":
-      ensure  => $ensure,
-      mode    => '0640',
-      owner   => 'reprepro',
-      group   => 'reprepro',
-      content => template("reprepro/incoming.erb");
+  file { "${basedir}/${name}/conf":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/lists":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/db":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/logs":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/tmp":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/incoming":
+    ensure  => directory,
+    mode    => '2755',
+    owner   => $owner,
+    group   => $group,
+    require => File["${basedir}/${name}"],
+  }
+
+  file { "${basedir}/${name}/conf/options":
+    ensure  => $ensure,
+    mode    => '0640',
+    owner   => $owner,
+    group   => $group,
+    content => inline_template("<%= options.join(\"\n\") %>\n"),
+    require => File["${basedir}/${name}/conf"], 
+  }
+
+  file { "${basedir}/${name}/conf/incoming":
+    ensure  => $ensure,
+    mode    => '0640',
+    owner   => $owner,
+    group   => $group,
+    content => template("reprepro/incoming.erb"),
+    require => File["${basedir}/${name}/conf"],
   }
 
   concat { "${basedir}/${name}/conf/distributions":
-    owner => 'reprepro',
-    group => 'reprepro',
+    owner => $owner,
+    group => $group,
     mode  => '0640',
+    require => File["${basedir}/${name}/conf"],
   }
 
 }
