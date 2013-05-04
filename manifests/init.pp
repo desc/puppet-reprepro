@@ -1,5 +1,6 @@
 class reprepro (
-  $basedir = $::reprepro::params::basedir
+  $basedir = $::reprepro::params::basedir,
+  $homedir = $::reprepro::params::homedir,
 ) inherits reprepro::params {
 
   package { $::reprepro::params::package_name:
@@ -14,9 +15,9 @@ class reprepro (
   user { 'reprepro':
     name    => $::reprepro::params::user_name,
     ensure  => present,
-    home    => $basedir,
+    home    => $homedir,
     shell   => '/bin/bash',
-    comment => 'reprepro base directory',
+    comment => 'Reprepro user',
     gid     => 'reprepro',
     require => Group['reprepro'],
   }
@@ -29,12 +30,12 @@ class reprepro (
     require => User['reprepro'],
   }
 
-  file { "${basedir}/.gnupg":
+  file { "${homedir}/.gnupg":
     ensure  => directory,
     owner   => $::reprepro::params::user_name,
     group   => $::reprepro::params::group_name,
     mode    => '0700',
-    require => File[$basedir],
+    require => User['reprepro'],
   }
 
 }
