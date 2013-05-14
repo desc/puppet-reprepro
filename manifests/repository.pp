@@ -50,7 +50,6 @@ define reprepro::repository (
     mode    => '2755',
     owner   => $owner,
     group   => $group,
-    require => File["${basedir}/${name}"],
   }
 
   file { "${basedir}/${name}/dists":
