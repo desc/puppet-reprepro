@@ -1,13 +1,13 @@
-Name: <%= name %>
-Method: <%= url %>
+Name: <%= @name %>
+Method: <%= @url %>
 <% if @suite -%>
-Suite: <%= suite %>
+Suite: <%= @suite %>
 <% end -%>
 <% if @architectures -%>
-Architectures: <%= architectures %>
+Architectures: <%= @architectures %>
 <% end -%>
-VerifyRelease: <%= verify_release %>
-<% if filter_list != "" -%>
-FilterList: <%= filter_list %>
+VerifyRelease: <%= @verify_release %>
+<% if @filter_list != "" -%>
+FilterList: <%= @filter_list %>
 <% end -%>
 
