@@ -30,6 +30,14 @@ class reprepro (
     require => User['reprepro'],
   }
 
+  file { "${homedir}":
+    ensure  => directory,
+    owner   => $::reprepro::params::user_name,
+    group   => $::reprepro::params::group_name,
+    mode    => '0770',
+    require => User['reprepro'],
+  }
+
   file { "${homedir}/.gnupg":
     ensure  => directory,
     owner   => $::reprepro::params::user_name,
