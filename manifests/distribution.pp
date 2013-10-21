@@ -87,7 +87,7 @@ define reprepro::distribution (
   }
 
   # Configure system for automatically adding packages
-  file { "${basedir}/${repository}/tmp/${suite}":
+  file { "${basedir}/${repository}/tmp/${codename}_${suite}":
     ensure => directory,
     mode   => '0755',
     owner  => $::reprepro::params::user_name,
@@ -96,7 +96,7 @@ define reprepro::distribution (
 
   if $install_cron {
     cron { "${name} cron":
-      command     => "cd ${basedir}/${repository}/tmp/${suite}; ls *.deb 2>/dev/null; if [ $? -eq 0 ]; then /usr/bin/reprepro -b ${basedir}/${repository} includedeb ${suite} *.deb; rm *.deb; fi",
+      command     => "cd ${basedir}/${repository}/tmp/${codename}_${suite}; ls *.deb 2>/dev/null; if [ $? -eq 0 ]; then /usr/bin/reprepro -b ${basedir}/${repository} includedeb ${suite} *.deb; rm *.deb; fi",
       user        => $::reprepro::params::user_name,
       environment => "SHELL=/bin/bash",
       minute      => '*/5',
