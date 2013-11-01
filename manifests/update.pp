@@ -36,6 +36,7 @@ define reprepro::update (
 ) {
 
   include reprepro::params
+  include concat::setup
 
   if $filter_name != '' {
     if $filter_action == '' {
@@ -52,17 +53,13 @@ define reprepro::update (
     default => true,
   }
 
-  common::concatfilepart {"update-${name}":
+  concat::fragment {"update-${name}":
     ensure  => $ensure,
-    manage  => $manage,
     content => template('reprepro/update.erb'),
-    file    => "${basedir}/${repository}/conf/updates",
+    target  => "${basedir}/${repository}/conf/updates",
     require => $filter_name ? {
-      ''      => Reprepro::Repository[$repository],
-      default => [
-        Reprepro::Repository[$repository],
-        Reprepro::Filterlist[$filter_name]
-      ],
+      ''      => undef,
+      default => Reprepro::Filterlist[$filter_name],
     }
   }
 
