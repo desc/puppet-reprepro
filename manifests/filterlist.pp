@@ -31,12 +31,13 @@ Warning:
 define reprepro::filterlist (
   $repository,
   $packages,
+  $basedir = $::reprepro::params::basedir,
   $ensure=present
 ) {
 
   include reprepro::params
 
-  file {"${reprepro::params::basedir}/${repository}/conf/${name}-filter-list":
+  file {"${basedir}/${repository}/conf/${name}-filter-list":
     ensure  => $ensure,
     owner   => 'root',
     group   => $::reprepro::params::group_name,
