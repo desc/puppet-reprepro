@@ -24,9 +24,6 @@ describe 'reprepro::update' do
     concatdir        = '/var/lib/puppet/concat'
     fragdir          = "#{concatdir}/#{safe_target_name}"
 
-    it { should contain_class('reprepro::params') }
-    it { should contain_class('concat::setup') }
-
     it do
       should contain_concat__fragment(fragment).with({
         :target => target
