@@ -51,9 +51,6 @@ define reprepro::update (
   $getinrelease=undef,
 ) {
 
-  include reprepro::params
-  include concat::setup
-
   if $flat and ($components or $udebcomponents) {
     fail('$components and $udebcomponents are not allowed when $flat is provided.')
   }

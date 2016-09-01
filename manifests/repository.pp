@@ -41,9 +41,6 @@ define reprepro::repository (
   $createsymlinks  = false,
   ) {
 
-  include reprepro::params
-  include concat::setup
-
   file { "${basedir}/${name}":
     ensure  => $ensure ? { 'present' => 'directory', default => $ensure,},
     purge   => $ensure ? { 'present' => undef,     default => true,},
