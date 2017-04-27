@@ -43,15 +43,29 @@ define reprepro::repository (
 
   include reprepro::params
 
+# lint:ignore:selector_inside_resource
   file { "${basedir}/${name}":
-    ensure  => $ensure ? { 'present' => 'directory', default => $ensure,},
-    purge   => $ensure ? { 'present' => undef,     default => true,},
-    recurse => $ensure ? { 'present' => undef,     default => true,},
-    force   => $ensure ? { 'present' => undef,     default => true,},
+    ensure  => $ensure ? {
+      'present' => 'directory',
+      default   => $ensure,
+    },
+    purge   => $ensure ? {
+      'present' => undef,
+      default   => true,
+    },
+    recurse => $ensure ? {
+      'present' => undef,
+      default   => true,
+    },
+    force   => $ensure ? {
+      'present' => undef,
+      default   => true,
+    },
     mode    => '2755',
     owner   => $owner,
     group   => $group,
   }
+# lint:endignore
 
   file { "${basedir}/${name}/dists":
     ensure  => directory,

@@ -59,17 +59,17 @@ class reprepro (
   }
 
   file { "${homedir}/.gnupg":
-    ensure  => directory,
-    owner   => $user_name,
-    group   => $group_name,
-    mode    => '0700',
+    ensure => directory,
+    owner  => $user_name,
+    group  => $group_name,
+    mode   => '0700',
   }
 
   file { "${homedir}/bin":
-    ensure  => directory,
-    mode    => '0755',
-    owner   => $user_name,
-    group   => $group_name,
+    ensure => directory,
+    mode   => '0755',
+    owner  => $user_name,
+    group  => $group_name,
   }
   ->
   file { "${homedir}/bin/update-distribution.sh":

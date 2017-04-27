@@ -32,4 +32,3 @@ define reprepro::key (
     refreshonly => true,
   }
 }
-    
