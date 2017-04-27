@@ -5,7 +5,6 @@
 # Parameters:
 # - *name*: the name of the pull rule to use in the Pull
 #   field in conf/distributions
-# - *ensure*: present/absent, defaults to present
 # - *repository*: the local repository to pull to
 # - *from*: The codename of the distribution to pull packages from.
 # - *components*: The components of the distribution to get from.
@@ -23,7 +22,6 @@
 # Example usage:
 #
 #   reprepro::pull {'lenny-backports':
-#     ensure      => 'present',
 #     repository  => 'localpkgs',
 #     from        => 'dev',
 #     filter_name => 'lenny-backports',
@@ -31,7 +29,6 @@
 #   }
 #
 define reprepro::pull (
-  $ensure          = 'present',
   $repository,
   $from,
   $basedir         = $::reprepro::basedir,
@@ -71,7 +68,6 @@ define reprepro::pull (
   }
 
   concat::fragment {"pulls-${name}":
-    ensure  => $ensure,
     target  => "${basedir}/${repository}/conf/pulls",
     content => template('reprepro/pull.erb'),
   }

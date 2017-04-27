@@ -80,7 +80,6 @@ define reprepro::distribution (
   }
 
   concat::fragment { "distribution-${name}":
-    ensure  => $ensure,
     target  => "${basedir}/${repository}/conf/distributions",
     content => template('reprepro/distribution.erb'),
     notify  => $notify,

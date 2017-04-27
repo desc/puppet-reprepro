@@ -87,7 +87,6 @@ define reprepro::update (
   }
 
   concat::fragment {"update-${name}":
-    ensure  => $ensure,
     content => template('reprepro/update.erb'),
     target  => "${basedir}/${repository}/conf/updates",
   }
