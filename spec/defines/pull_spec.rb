@@ -34,8 +34,8 @@ describe 'reprepro::pull' do
     end
 
     # Check the template
-    it { should contain_file("#{fragdir}/fragments/10_#{safe_name}").with_content(/Name: lenny-backports/) }
-    it { should contain_file("#{fragdir}/fragments/10_#{safe_name}").with_content(/From: #{default_params[:from]}/) }
+    #it { should contain_file("#{fragdir}/fragments/10_#{safe_name}").with_content(/Name: lenny-backports/) }
+    #it { should contain_file("#{fragdir}/fragments/10_#{safe_name}").with_content(/From: #{default_params[:from]}/) }
 
   end
 end
