@@ -72,6 +72,7 @@ define reprepro::distribution (
   $log                    = '',
 ) {
 
+  require reprepro
   include reprepro::params
 
   $notify = $ensure ? {
