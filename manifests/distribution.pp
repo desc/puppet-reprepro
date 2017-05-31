@@ -25,6 +25,11 @@
 #                      value are "yes" or "no"
 #   - *but_automatic_upgrades*: set ButAutomaticUpgrades,
 #                      value are "yes" or "no"
+#   - *create_pull*:       hash to create reprepro::pull resource
+#                          the name will be appended to $pull
+#   - *create_update*:     hash to create reprepro::update resource
+#                          the name will be appended to $update
+#   - *create_filterlist*: hash to create reprerpo::filterlist resource
 #
 # === Requires
 #
@@ -70,9 +75,23 @@ define reprepro::distribution (
   $not_automatic          = '',
   $but_automatic_upgrades = 'no',
   $log                    = '',
+  $create_pull            = {},
+  $create_update          = {},
+  $create_filterlist      = {},
 ) {
 
   include reprepro::params
+
+  # create update and pull resources:
+  $_pull   = join(union([$pull],   keys($create_pull)),   ' ')
+  $_update = join(union([$update], keys($create_update)), ' ')
+  $defaults = {
+    repository => $repository,
+    basedir    => $basedir,
+  }
+  create_resources('::reprepro::update', $create_update, $defaults)
+  create_resources('::reprepro::pull', $create_pull, $defaults)
+  create_resources('::reprepro::filterlist', $create_filterlist, $defaults)
 
   $notify = $ensure ? {
     'present' => Exec["export distribution ${name}"],
