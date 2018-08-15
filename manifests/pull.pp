@@ -71,7 +71,6 @@ define reprepro::pull (
   }
 
   concat::fragment {"pulls-${name}":
-    ensure  => $ensure,
     target  => "${basedir}/${repository}/conf/pulls",
     content => template('reprepro/pull.erb'),
   }
