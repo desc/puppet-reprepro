@@ -14,6 +14,11 @@ class reprepro::params {
       $user_name    = 'reprepro'
       $group_name   = 'reprepro'
     }
+    'RedHat': {
+      $package_name = 'reprepro'
+      $user_name    = 'reprepro'
+      $group_name   = 'reprepro'
+    }
     default: {
       fail("Unsupported osfamily: ${::osfamily}")
     }
